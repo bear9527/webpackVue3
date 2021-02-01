@@ -52,3 +52,6 @@ border: none;
 img{
 border:0 none;
 }
+li{
+    list-style: none;
+}
