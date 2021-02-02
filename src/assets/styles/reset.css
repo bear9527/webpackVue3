@@ -55,3 +55,23 @@ border:0 none;
 li{
     list-style: none;
 }
+
+
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+  
+  .clearfix::before {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+.clearfix{
+    zoom:1;
+}
