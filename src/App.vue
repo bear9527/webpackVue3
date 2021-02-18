@@ -1,11 +1,13 @@
 <template>
       <Header />
       <router-view></router-view> 
+      <Footer></Footer>
 </template>
 
 <script>
 import "./assets/styles/reset.css"
-import Header from "./compontents/Header.vue"
+import Header from "./compontents/public/Header.vue"
+import Footer from "./compontents/public/Footer.vue"
 export default {
     setup(){
         const mmm = ()=>{
@@ -16,7 +18,8 @@ export default {
         }
     },
     components:{
-        Header
+        Header,
+        Footer
     }
 }
 </script>

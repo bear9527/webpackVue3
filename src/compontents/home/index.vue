@@ -72,11 +72,17 @@
         </el-col>
       </el-row>
     </div>
+    <goodslist></goodslist>
   </div>
 </template>
 
 <script>
-export default {};
+import goodslist from "../../compontents/public/goodslist.vue"
+export default {
+  components:{
+    goodslist
+  }
+};
 </script>
 
 <style lang="scss" scoped>
