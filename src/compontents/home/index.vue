@@ -73,6 +73,7 @@
       </el-row>
     </div>
     <goodslist></goodslist>
+    <hr/>
   </div>
 </template>
 
