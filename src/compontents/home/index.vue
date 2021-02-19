@@ -94,6 +94,8 @@ export default {};
         background-color: brown;
       }
       .problemWrapper {
+        padding-top: 10px;
+        padding-bottom: 10px;
         .problem-top {
           height: 20px;
           h2 {
