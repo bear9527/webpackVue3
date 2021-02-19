@@ -72,11 +72,17 @@
         </el-col>
       </el-row>
     </div>
+    <goodslist></goodslist>
   </div>
 </template>
 
 <script>
-export default {};
+import goodslist from "../../compontents/public/goodslist.vue"
+export default {
+  components:{
+    goodslist
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -94,8 +100,6 @@ export default {};
         background-color: brown;
       }
       .problemWrapper {
-        padding-top: 10px;
-        padding-bottom: 10px;
         .problem-top {
           height: 20px;
           h2 {

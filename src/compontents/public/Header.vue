@@ -14,7 +14,7 @@
             class="navbar-brand"
             href="javascript:;"
           ><img
-              src="../assets/images/logo.png"
+              src="../../assets/images/logo.png"
               alt=""
             ></a>
 
@@ -27,6 +27,9 @@
               to="/"
               class="current"
             >Home</router-link>
+          </li>
+          <li>
+            <router-link to="/list">List</router-link>
           </li>
           <li>
             <router-link to="/about">About</router-link>
