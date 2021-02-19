@@ -58,5 +58,6 @@ module.exports = {
         contentBase: path.resolve(__dirname, "./dist"),
         port: 8081,
         publicPath: "/"
-    }
+    },
+    devtool: 'source-map',  // 代码调试
 }
