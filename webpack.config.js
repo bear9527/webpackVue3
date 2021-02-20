@@ -8,10 +8,13 @@ const { VueLoaderPlugin } = require('vue-loader/dist/index')
 
 module.exports = {
     mode: 'development', //环境模式
-    entry: path.resolve(__dirname, './src/main.js'), //打包入口
+    entry: {
+        pageOne:path.resolve(__dirname, './src/main.js'), //打包入口
+        // pageTwo:path.resolve(__dirname, './src/main2.js'), //打包入口
+    },
     output: {
         path: path.resolve(__dirname, 'dist'), //打包出口
-        filename: 'js/[name].js' //打包完的静态资源文件名
+        filename: 'js/bundle-[name].js' //打包完的静态资源文件名
     },
     module:{
         rules:[
@@ -21,18 +24,24 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ["style-loader","css-loader","sass-loader"]
+                use: ["style-loader","css-loader"]
             },
             {
                 test: /\.(png|jpe?g|gif|svg|)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    limit: 10000,
+                    // limit: 10000,
+                    limit: 3 * 1024,    //图片小于8kb会被转为bese64
+                    name: '[hash:10].[ext]',
+                    outputPath:'images'
                 }
             },
             {
                 test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/,
-                loader: 'file-loader'
+                loader: 'file-loader',
+                options: {
+                    outputPath:'fonts'
+                }
             },
             {
                 test: /\.scss$/,
@@ -49,14 +58,18 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, './index.html'),
             filename: 'index.html', //打包后输出的文件名
+            chunks: ['pageOne'],
             title: 'webpack vue3 项目' //index.html 模板内，通过<%= htmlWebpackPlugin.option.title %> 拿到变量
         }),
         new VueLoaderPlugin(),
         new CleanWebpackPlugin()
     ],
+    //serve
     devServer: {
         contentBase: path.resolve(__dirname, "./dist"),
+        compress:true, //启用gzip压缩
         port: 8081,
+        open:true,
         publicPath: "/"
     },
     devtool: 'source-map',  // 代码调试
