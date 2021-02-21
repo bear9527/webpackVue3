@@ -9,9 +9,10 @@ const { VueLoaderPlugin } = require('vue-loader/dist/index')
 module.exports = {
     mode: 'development', //环境模式
     entry: {
-        pageOne:path.resolve(__dirname, './src/main.js'), //打包入口
-        // pageTwo:path.resolve(__dirname, './src/main2.js'), //打包入口
+        pageOne:["@babel/polyfill", path.resolve(__dirname, './src/main.js')], //打包入口
     },
+    // entry: './src/main.js',
+    target: ['web', 'es5'],//← ← ←就是这个
     output: {
         path: path.resolve(__dirname, 'dist'), //打包出口
         filename: 'js/bundle-[name].js' //打包完的静态资源文件名
@@ -47,11 +48,29 @@ module.exports = {
                 test: /\.scss$/,
                 use: ["style-loader","css-loader","sass-loader"]
             },
+            // {
+            //     test: /\.js$/,
+            //     exclude: /node_modules/,
+            //     use: [
+            //         // 'babel-loader',
+            //         {
+            //             loader: 'eslint-loader',
+            //             options: {
+            //                 // 自动修复
+            //                 fix: true
+            //             }
+            //         }
+            //     ]
+            // },
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: "babel-loader"
-            }
+                loader: 'babel-loader',
+                options: {
+                  // 预设：指示babel做怎样的兼容性处理
+                  presets: ['@babel/preset-env']
+                }
+              }
         ]
     },
     plugins: [

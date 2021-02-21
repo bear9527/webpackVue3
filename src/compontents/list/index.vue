@@ -1,15 +1,20 @@
 <template>
   <div class="list">
-      我是列表页
+    <goodslist></goodslist>
   </div>
 </template>
 
 <script>
+import goodslist from "../../compontents/public/goodslist.vue"
 export default {
-
+  components:{
+    goodslist
+  }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+/deep/ .el-row {
+    width: 100%;
+}
 </style>

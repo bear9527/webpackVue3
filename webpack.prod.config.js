@@ -1,9 +1,22 @@
 
 const { resolve } = require('path');
+
+//生成html
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+// vueloader
 const { VueLoaderPlugin } = require('vue-loader');
+
+// 分离css
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+// 打包前清空文件夹
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+//css压缩插件
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+
+//设置nodejs的环境变量
+process.env.NODE_ENV = 'production';
 
 module.exports = {
     mode: 'production',
@@ -21,6 +34,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 use: [
+                    //'style-loader',
                     //这个loader 取代style-loader,拆分js里的css
                     {
                         loader:MiniCssExtractPlugin.loader,
@@ -28,15 +42,22 @@ module.exports = {
                             publicPath:'/'
                         }
                     },
-                    //'style-loader',
-                    'css-loader'
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                    }
                 ],
             },
             {
                 test: /\.scss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader', 'sass-loader'],
+                    'css-loader',
+                    'sass-loader',
+                    {
+                        loader: 'postcss-loader',
+                    }
+                ],
             },
             {
                 test: /\.(jpg|png|gif)(\?.*)?$/,
@@ -45,11 +66,41 @@ module.exports = {
                     outputPath: 'images'
                 }
             },
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: 'babel-loader'
-            },
+//             {
+//                 test: /\.js$/,
+//                 exclude: /node_modules/,
+//                 use: [
+//                     {
+//                         loader: 'eslint-loader',
+//                         options: {
+//                             // 自动修复
+//                             fix: true
+//                         }
+//                     }
+//                 ]
+//             },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader:'babel-loader',
+                options: {
+                    // 预设：指示babel做怎样的兼容性处理
+                    presets: [
+                    '@babel/preset-env', // 基本预设
+                    {
+                        useBuiltIns: 'usage', //按需加载
+                        corejs: { version: 3 }, // 指定core-js版本
+                        // targets: { // 指定兼容到什么版本的浏览器
+                        //     chrome: '60',
+                        //     firefox: '50',
+                        //     ie: '9',
+                        //     safari: '10',
+                        //     edge: '17'
+                        // },
+                    }
+                    ],
+                },
+            },
             {
                 exclude: /\.(html|vue|js|css|scss|jpg|png|gif)/,
                 loader: 'file-loader',
@@ -71,6 +122,7 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "css/[name].[chunkhash:8].css",
             chunkFilename: "[id].css"
-        })
+        }),
+        new OptimizeCssAssetsWebpackPlugin()
     ]
 }

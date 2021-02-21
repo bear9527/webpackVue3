@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="test">
       <p>子组件：{{testStr}}</p>
 
       <h2>年龄： {{age}}</h2>
@@ -84,6 +84,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+    .test{
+        width:300px;
+        height:400px;
+        display: flex;
+        transform: translate3d(90deg);
+    }
 </style>

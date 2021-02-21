@@ -118,7 +118,6 @@ export default {
     width: 100%;
     max-width: 1200px;
     margin: 10px auto;
-    // padding: 0 10px;
     box-sizing: border-box;
     .all-btn{
       float: right;
