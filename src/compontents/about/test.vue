@@ -54,7 +54,7 @@ export default {
             // alert("onActivated")
         })
 
-        var aaa = new Promise((resolve,reject)=>{
+        let aaab = new Promise((resolve,reject)=>{
             resolve(true)
             // reject(false)
         }).then(function(str){

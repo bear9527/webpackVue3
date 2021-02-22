@@ -20,7 +20,8 @@ process.env.NODE_ENV = 'production';
 
 module.exports = {
     mode: 'production',
-    entry: './src/main.js',
+//     entry: './src/main.js',
+entry: [resolve(__dirname, './src/main.js')],
     output: {
         filename: 'js/built.js',
         path: resolve(__dirname, 'build')
@@ -62,9 +63,11 @@ module.exports = {
             {
                 test: /\.(jpg|png|gif)(\?.*)?$/,
                 loader: 'url-loader',
-                options: {
-                    outputPath: 'images'
-                }
+                options: {
+                    limit: 8 * 1024,    //图片小于8kb会被转为bese64
+                    name: '[hash:10].[ext]',
+                    outputPath:'images'
+                }
             },
 //             {
 //                 test: /\.js$/,
@@ -80,26 +83,37 @@ module.exports = {
 //                 ]
 //             },
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader:'babel-loader',
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                // target: ['node', 'es5'],
                 options: {
-                    // 预设：指示babel做怎样的兼容性处理
                     presets: [
-                    '@babel/preset-env', // 基本预设
-                    {
-                        useBuiltIns: 'usage', //按需加载
-                        corejs: { version: 3 }, // 指定core-js版本
-                        // targets: { // 指定兼容到什么版本的浏览器
-                        //     chrome: '60',
-                        //     firefox: '50',
-                        //     ie: '9',
-                        //     safari: '10',
-                        //     edge: '17'
-                        // },
-                    }
+                        [
+                            '@babel/preset-env',
+                            {
+                                useBuiltIns: 'usage',
+                                corejs: 3,
+                                targets: {
+                                    chrome: '60',
+                                    firefox: "60",
+                                    ie: '9',
+                                    safari: '10',
+                                    edge: '17'
+                                }
+                            }
+                        ]
                     ],
-                },
+                    //利用 @babel/plugin-transform-runtime 插件还能以沙箱垫片的方式防止污染全局， 并抽离公共的 helper function , 以节省代码的冗余
+                    "plugins": [
+                        [
+                            "@babel/plugin-transform-runtime", 
+                            {
+                                "corejs": 3
+                            }
+                        ]
+                    ]
+                }
             },
             {
                 exclude: /\.(html|vue|js|css|scss|jpg|png|gif)/,

@@ -1,3 +1,4 @@
+
 const path = require('path')
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
@@ -6,13 +7,14 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 const { VueLoaderPlugin } = require('vue-loader/dist/index')
 
+//设置nodejs的环境变量
+process.env.NODE_ENV = 'development';
 module.exports = {
     mode: 'development', //环境模式
     entry: {
-        pageOne:["@babel/polyfill", path.resolve(__dirname, './src/main.js')], //打包入口
+        pageOne: path.resolve(__dirname, './src/main.js'), //打包入口
     },
-    // entry: './src/main.js',
-    target: ['web', 'es5'],//← ← ←就是这个
+    // entry: './src/main.js',
     output: {
         path: path.resolve(__dirname, 'dist'), //打包出口
         filename: 'js/bundle-[name].js' //打包完的静态资源文件名
@@ -31,8 +33,7 @@ module.exports = {
                 test: /\.(png|jpe?g|gif|svg|)(\?.*)?$/,
                 loader: 'url-loader',
                 options: {
-                    // limit: 10000,
-                    limit: 3 * 1024,    //图片小于8kb会被转为bese64
+                    limit: 8 * 1024,    //图片小于8kb会被转为bese64
                     name: '[hash:10].[ext]',
                     outputPath:'images'
                 }
@@ -64,13 +65,49 @@ module.exports = {
             // },
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
+                // exclude: /node_modules/,
+                include: [
+
+                    path.resolve('src'),
+                    path.resolve('node_modules/@vue'),
+                    path.resolve('node_modules/element-plus'),
+                    path.resolve('node_modules/vue-router'),
+                    path.resolve('node_modules/vue')
+                    // path.resolve('node_modules/mitt'),
+                    
+                    
+                    ]
+                ,
                 loader: 'babel-loader',
+                // target: ['node', 'es5'],
                 options: {
-                  // 预设：指示babel做怎样的兼容性处理
-                  presets: ['@babel/preset-env']
+                    presets: [
+                        [
+                            '@babel/preset-env',
+                            {
+                                useBuiltIns: 'usage',
+                                corejs: 3,
+                                targets: {
+                                    chrome: '60',
+                                    firefox: "60",
+                                    ie: '9',
+                                    safari: '10',
+                                    edge: '17'
+                                }
+                            }
+                        ]
+                    ],
+                    //利用 @babel/plugin-transform-runtime 插件还能以沙箱垫片的方式防止污染全局， 并抽离公共的 helper function , 以节省代码的冗余
+                    "plugins": [
+                        [
+                            "@babel/plugin-transform-runtime", 
+                            {
+                                "corejs": 3
+                            }
+                        ]
+                    ]
                 }
-              }
+            }
         ]
     },
     plugins: [

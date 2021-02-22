@@ -14,7 +14,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/deep/ .el-row {
+.list ::v-deep(.el-row) {
     width: 100%;
 }
 </style>
