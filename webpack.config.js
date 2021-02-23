@@ -65,21 +65,15 @@ module.exports = {
             // },
             {
                 test: /\.js$/,
-                // exclude: /node_modules/,
-                include: [
-
-                    path.resolve('src'),
-                    path.resolve('node_modules/@vue'),
-                    path.resolve('node_modules/element-plus'),
-                    path.resolve('node_modules/vue-router'),
-                    path.resolve('node_modules/vue')
-                    // path.resolve('node_modules/mitt'),
-                    
-                    
-                    ]
-                ,
+                exclude: /node_modules/,
+                // include: [
+                //     path.resolve('node_modules/vue'),
+                //     path.resolve('node_modules/@vue'),
+                //     path.resolve('node_modules/element-plus'),
+                //     path.resolve('node_modules/vue-router'),
+                //     path.resolve('src')
+                // ],
                 loader: 'babel-loader',
-                // target: ['node', 'es5'],
                 options: {
                     presets: [
                         [
@@ -126,7 +120,8 @@ module.exports = {
         compress:true, //启用gzip压缩
         port: 8081,
         open:true,
+        hot:true,
         publicPath: "/"
     },
-    devtool: 'source-map',  // 代码调试
+    devtool: 'eval-source-map',  // 代码调试
 }
