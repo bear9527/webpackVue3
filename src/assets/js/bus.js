@@ -7,6 +7,6 @@ new _Promise((resolve) => {
   resolve(true);
 }).then((str) => {
   // eslint-disable-next-line
-  alert(str);
+  // alert(str);
 });
 export default mitt();
